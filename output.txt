@@ -1,0 +1,12 @@
+{'id_': 1,
+ 'status': 'active',
+ 'subscription_time': 'year',
+ 'user_id': 5760969341}
+{'id_': 2,
+ 'status': 'expired',
+ 'subscription_time': 'month',
+ 'user_id': 1940249284}
+{'id_': 3,
+ 'status': 'expired',
+ 'subscription_time': 'week',
+ 'user_id': 1940249284}
