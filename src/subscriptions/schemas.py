@@ -4,6 +4,5 @@ class SubscriptionStatus:
 
 
 class SubscriptionTime:
-    WEEK = "week"
     MONTH = "month"
-    YEAR = "year"
+    THREE_MONTHS = "three_months"

@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from typing import List
 
 from sqlalchemy import Column, Integer, String, DateTime
@@ -21,3 +22,6 @@ class Subscription(Base):
         if keys:
             return {k: getattr(self, k) for k in keys}
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+

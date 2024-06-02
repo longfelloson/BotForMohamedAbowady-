@@ -10,8 +10,8 @@ from src.subscriptions.schemas import SubscriptionStatus
 
 
 async def add_subscription(
-    user_id: int, expires_at: datetime,
-    subscription_time: str, session: AsyncSession
+        user_id: int, expires_at: datetime,
+        subscription_time: str, session: AsyncSession
 ) -> None:
     """
     Adding new subscription to database
@@ -35,7 +35,7 @@ async def get_subscription(user_id: int, session: AsyncSession, **fields) -> Opt
     return subscription.scalar_one_or_none()
 
 
-async def update_subscription(user_id: int,  session: AsyncSession, **fields) -> None:
+async def update_subscription(user_id: int, session: AsyncSession, **fields) -> None:
     """
     Update a subscription of user on user id
     """

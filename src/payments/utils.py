@@ -1,26 +1,24 @@
-import json
-import uuid
+import random
 
 import httpx
 
-from src import config
 from src.payments.schemas import PaymentSchema
 
 CREATE_PAYMENT_API_URL = "https://sandboxapi.upayments.com/api/v1/charge"
 CHECK_PAYMENT_API_URL = "https://sandboxapi.upayments.com/api/v1/get-payment-status/track_id"
 
 
-async def create_payment() -> PaymentSchema:
+async def get_payment(amount: int, currency: str = "USD") -> PaymentSchema:
     """
     Creates payment's url and returns it
     """
     payload = {
         "order": {
-            "id": "202210101202210123",
+            "id": str(random.randint(1000000, 9999999)),
             "reference": "202210101",
-            "description": "Subscribe in privite channel one  ",
-            "currency": "KWD",
-            "amount": 20
+            "description": "Subscribe in private channel one",
+            "currency": currency,
+            "amount": amount
         },
         "language": "en",
         "paymentGateway": {"src": "knet"},
@@ -41,7 +39,7 @@ async def create_payment() -> PaymentSchema:
 
 async def check_payment(payment_id: int) -> bool:
     """
-    Checks payment's url and returns True if it payed
+    Checks payment's url and returns True if it paid
     """
     # params = {"track_id": payment_id}
     # headers = {

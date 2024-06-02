@@ -1,29 +1,30 @@
 from typing import List
 
-from aiogram.types import InlineKeyboardButton as InlineButton, InlineKeyboardMarkup as InlineKeyboard, \
-    InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton as InlineButton, InlineKeyboardMarkup as InlineKeyboard
 from aiogram.utils.keyboard import InlineKeyboardBuilder as InlineBuilder
 
 from src.subscriptions.models import Subscription
 from src.subscriptions.schemas import SubscriptionTime
+from src.subscriptions.utils import get_price
+from src.users.models import User
 
 
-def subscriptions_plans_keyboard(user_subscriptions: List[Subscription]) -> InlineKeyboard:
+def subscriptions_plans_keyboard(user: User, user_subscriptions: List[Subscription]) -> InlineKeyboard:
     """
     Buttons for subscriptions plans keyboard
     """
+    three_months_price = get_price(user, SubscriptionTime.THREE_MONTHS)
+    month_price = get_price(user, SubscriptionTime.MONTH)
     buttons = {
-        SubscriptionTime.WEEK:
-            InlineButton(
-                text="🥉 Subscription for week", callback_data=f"create_payment*{SubscriptionTime.WEEK}"
-            ),
         SubscriptionTime.MONTH:
             InlineButton(
-                text="🥈 Subscription for month", callback_data=f"create_payment*{SubscriptionTime.MONTH}"
+                text=f"🥉 Subscription for month: ${month_price}",
+                callback_data=f"create_payment*{SubscriptionTime.MONTH}*{month_price}"
             ),
-        SubscriptionTime.YEAR:
+        SubscriptionTime.THREE_MONTHS:
             InlineButton(
-                text="🥇 Subscription for year", callback_data=f"create_payment*{SubscriptionTime.YEAR}"
+                text=f"🥈 Subscription for three months: ${three_months_price}",
+                callback_data=f"create_payment*{SubscriptionTime.THREE_MONTHS}*{three_months_price}"
             )
     }
     user_subscriptions_times = [subscription.subscription_time for subscription in user_subscriptions]

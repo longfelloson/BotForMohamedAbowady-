@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from aiogram.types import ChatInviteLink
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src import config
@@ -10,6 +9,7 @@ from src.database import get_async_session
 from src.subscriptions import crud
 from src.subscriptions.models import Subscription
 from src.subscriptions.schemas import SubscriptionStatus, SubscriptionTime
+from src.users.models import User
 
 CHANNEL_INVITE_LINK_MEMBER_LIMIT = 1
 
@@ -50,12 +50,10 @@ def get_expire_datetime_by_time(subscription_time: str) -> datetime:
     current_datetime = datetime.now()
 
     match subscription_time:
-        case SubscriptionTime.WEEK:
-            return current_datetime + timedelta(minutes=10)
         case SubscriptionTime.MONTH:
             return current_datetime + timedelta(weeks=4)
-        case SubscriptionTime.YEAR:
-            return current_datetime + timedelta(days=365)
+        case SubscriptionTime.THREE_MONTHS:
+            return current_datetime + timedelta(weeks=12)
 
 
 def get_subscription_info(subscription: Subscription) -> dict:
@@ -64,12 +62,10 @@ def get_subscription_info(subscription: Subscription) -> dict:
     """
     sub_level = ""
     match subscription.subscription_time:
-        case SubscriptionTime.WEEK:
-            sub_level = "🥉"
         case SubscriptionTime.MONTH:
+            sub_level = "🥉"
+        case SubscriptionTime.THREE_MONTHS:
             sub_level = "🥈"
-        case SubscriptionTime.YEAR:
-            sub_level = "🥇"
 
     level = f"{sub_level} Level: <b>{subscription.subscription_time}</b>"
     expiration = f"⏳ Expiration: <b>{subscription.expires_at.strftime('%Y-%m-%d %H:%M')}</b>"
@@ -77,3 +73,16 @@ def get_subscription_info(subscription: Subscription) -> dict:
     return f"{level}\n\n{expiration}"
 
 
+def get_price(user: User, subscription_time: str) -> float:
+    """
+
+    """
+    prices = {
+        SubscriptionTime.MONTH: {
+            True: config.MONTH_SUBSCRIPTION_PRICE_WITH_DISCOUNT, False: config.MONTH_SUBSCRIPTION_PRICE
+        },
+        SubscriptionTime.THREE_MONTHS: {
+            True: config.THREE_MONTHS_SUBSCRIPTION_PRICE_WITH_DISCOUNT, False: config.THREE_MONTHS_SUBSCRIPTION_PRICE
+        }
+    }
+    return prices[subscription_time][user.discount]

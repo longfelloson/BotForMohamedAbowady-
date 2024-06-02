@@ -10,6 +10,7 @@ class PayloadMiddleware(BaseMiddleware):
     """
     The middleware of the payload that transmits the object of the database session and the user
     """
+
     async def __call__(self, handler, message: Message, data: Dict[str, Any]) -> Any:
         async for session in get_async_session():
             data['session'] = session

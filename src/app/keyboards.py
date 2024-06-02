@@ -1,4 +1,4 @@
-from aiogram.types import KeyboardButton as Button, ReplyKeyboardMarkup as Keyboard, ReplyKeyboardMarkup
+from aiogram.types import KeyboardButton as Button, ReplyKeyboardMarkup as Keyboard
 from aiogram.utils.keyboard import ReplyKeyboardBuilder as Builder
 
 from src import config
@@ -13,6 +13,6 @@ def main_keyboard(user_id: int) -> Keyboard:
     )
     if user_id == config.CHAT_OWNER_ID:
         builder.row(
-            Button(text="Report")
+            Button(text="Report"), Button(text="Codes")
         )
     return builder.as_markup(resize_keyboard=True)
