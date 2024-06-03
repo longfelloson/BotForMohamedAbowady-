@@ -18,5 +18,3 @@ async def start_command_handler(message: Message, user: User, session: AsyncSess
         await create_user(user.id, session)
 
     await message.reply(text="Hello!", reply_markup=main_keyboard(user.id))
-
-

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import insert, select, update, and_
+from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.users.models import User

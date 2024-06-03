@@ -27,4 +27,3 @@ def codes_keyboard(codes: List[Code], action: str) -> InlineKeyboard:
         InlineButton(text=f"{code.id_}. {code.code}", callback_data=f"{action}_code*{code.id_}") for code in codes
     ]
     return InlineBuilder().add(*buttons).adjust(1).as_markup()
-

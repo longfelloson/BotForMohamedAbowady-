@@ -5,8 +5,8 @@ from src.payments.models import Payment
 
 
 async def create_payment(
-    user_id: int, amount: int, message_id: int,
-    subscription_period: str, session: AsyncSession
+        user_id: int, amount: int, message_id: int,
+        subscription_period: str, session: AsyncSession
 ) -> None:
     """
     Creates payment for database

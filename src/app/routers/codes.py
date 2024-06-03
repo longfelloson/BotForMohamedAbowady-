@@ -4,10 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.app.filters import CodesFilter
 from src.app.loader import bot
+from src.subscriptions.codes import crud
 from src.subscriptions.codes.crud import create_code
 from src.subscriptions.codes.keyboards import codes_keyboard
 from src.users.crud import update_user
-from src.subscriptions.codes import crud
 
 router = Router(name="Codes")
 

@@ -3,7 +3,6 @@ from aiogram.types import Message, User, FSInputFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src import config
-from src.subscriptions.codes.crud import create_code
 from src.subscriptions.codes.keyboards import codes_management_menu_keyboard
 from src.subscriptions.crud import get_subscriptions, get_subscription
 from src.subscriptions.files.utils import update_csv_file

@@ -2,6 +2,7 @@ import random
 
 import httpx
 
+from src import config
 from src.payments.schemas import PaymentSchema
 
 CREATE_PAYMENT_API_URL = "https://sandboxapi.upayments.com/api/v1/charge"
@@ -25,7 +26,7 @@ async def get_payment(amount: int, currency: str = "USD") -> PaymentSchema:
         "reference": {"id": "ord_000000101121012121211231212"},
         "returnUrl": "https://www.yourwebsite.com/success",
         "cancelUrl": "https://www.yourwebsite.com/cancel",
-        "notificationUrl": "https://www.yourwebsite.com/notification"
+        "notificationUrl": config.SITE_URL + "/payments",
     }
     headers = {
         "accept": "application/json",
