@@ -31,23 +31,8 @@ async def get_payment(amount: int, currency: str = "USD") -> PaymentSchema:
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "Authorization": "Bearer jtest123"
+        "Authorization": f"Bearer {config.PAYMENTS_API_TOKEN}"
     }
     async with httpx.AsyncClient() as client:
         response = await client.post(CREATE_PAYMENT_API_URL, json=payload, headers=headers)
         return PaymentSchema(url=response.json()["data"]["link"], id_=payload["order"]["id"])
-
-
-async def check_payment(payment_id: int) -> bool:
-    """
-    Checks payment's url and returns True if it paid
-    """
-    # params = {"track_id": payment_id}
-    # headers = {
-    #     "accept": "application/json",
-    #     "Authorization": f"Bearer {config.PAYMENTS_API_TOKEN}"
-    # }
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.get(CHECK_PAYMENT_API_URL, params=params, headers=headers)
-    #     return response.json()['status']
-    return True

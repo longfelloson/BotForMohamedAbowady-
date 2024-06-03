@@ -11,7 +11,7 @@ from src.payments import crud
 from src.payments.crud import create_payment
 from src.payments.keyboards import payment_keyboard
 from src.payments.schemas import PaymentStatus
-from src.payments.utils import get_payment, check_payment
+from src.payments.utils import get_payment
 from src.subscriptions.keyboards import channel_invite_link_keyboard
 from src.subscriptions.utils import create_subscription
 from src.users.crud import update_user
@@ -42,7 +42,7 @@ async def post_request_handler(request: Request, session: AsyncSession = Depends
     data = await request.json()
     if data['status'] == PAID_PAYMENT_STATUS:
         payment = await crud.get_payment(data['payment_id'], session)
-        invite_link = await create_subscription(payment.id_, payment.subscription_period, session)
+        invite_link = await create_subscription(payment.user_id, payment.subscription_period, session)
 
         await update_user(payment.user_id, session, discount=False)
         await crud.update_payment(payment.id_, session, status=PaymentStatus.PAID, paid_at=datetime.now())

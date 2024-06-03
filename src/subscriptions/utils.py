@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import ChatInviteLink
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -21,7 +22,12 @@ async def create_subscription(user_id: int, subscription_time: str, session: Asy
     expires_at = get_expire_datetime_by_time(subscription_time)
 
     await crud.add_subscription(user_id, expires_at, subscription_time, session)
-    await bot.unban_chat_member(config.CHANNEL_ID, user_id)
+
+    try:
+        await bot.unban_chat_member(config.CHANNEL_ID, user_id)
+    except TelegramBadRequest:
+        pass
+
     invite_link = await bot.create_chat_invite_link(
         chat_id=config.CHANNEL_ID,
         member_limit=CHANNEL_INVITE_LINK_MEMBER_LIMIT,
