@@ -26,7 +26,7 @@ async def get_payment(amount: int, currency: str = "USD") -> PaymentSchema:
         "reference": {"id": "ord_000000101121012121211231212"},
         "returnUrl": "https://www.yourwebsite.com/success",
         "cancelUrl": "https://www.yourwebsite.com/cancel",
-        "notificationUrl": config.SITE_URL + "/payments",
+        "notificationUrl": config.SITE_URL + "/payment",
     }
     headers = {
         "accept": "application/json",
